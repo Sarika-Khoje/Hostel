@@ -1,22 +1,23 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import StatusBar from "../components/StatusBar";
+import RecentIssues from "../components/RecentIssues";
+import QuickActions from "../components/QuickActions";
 
-function Dashboard() {
+export default function Dashboard() {
   return (
-    <div>
+    <div className="min-h-screen bg-gray-100">
       <Navbar />
 
-      <div style={{ display: "flex" }}>
+      <div className="flex">
         <Sidebar />
 
-        <div style={{ padding: "40px", width: "100%" }}>
+        <div className="flex-1 p-6">
           <StatusBar />
-          <h1>Dashboard Loaded ✅</h1>
+          <QuickActions />
+          <RecentIssues />
         </div>
       </div>
     </div>
   );
 }
-
-export default Dashboard;

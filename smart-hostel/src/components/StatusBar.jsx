@@ -1,17 +1,9 @@
 function StatusBar() {
   return (
-    <div
-      style={{
-        border: "1px solid gray",
-        padding: "10px",
-        display: "flex",
-        justifyContent: "space-between",
-        marginBottom: "20px",
-      }}
-    >
-      <span>Pending</span>
-      <span>In Progress</span>
-      <span>Resolved</span>
+    <div className="bg-white border border-gray-300 rounded-lg p-4 flex justify-between">
+      <span className="text-gray-600 font-medium">Pending</span>
+      <span className="text-gray-600 font-medium">In Progress</span>
+      <span className="text-gray-600 font-medium">Resolved</span>
     </div>
   );
 }
