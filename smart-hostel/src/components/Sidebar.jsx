@@ -1,34 +1,34 @@
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
-function Sidebar() {
+
+export default function Sidebar() {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
   return (
-    <div className="w-64 bg-purple-200 min-h-screen p-6 border-r border-gray-300">
-      <div className="flex items-center gap-3 mb-8">
-        <div className="w-10 h-10 bg-black rounded-full"></div>
-        <span className="font-semibold">Student</span>
-      </div>
+    <div className="w-64 bg-purple-100 shadow p-6">
 
-      <ul className="space-y-4 text-purple-900 font-medium">
-        <li>
-          <Link to="#" className="hover:underline">
-            My Profile
-          </Link>
-        </li>
+      <h3 className="font-bold text-purple-700 mb-4">My Profile</h3>
 
+      <ul className="space-y-3">
         <li>
-          <Link to="#" className="hover:underline">
-            My Reported Issues
-          </Link>
-        </li>
+  <Link to="/my-issues" className="text-purple-700">
+    My Reported Issues
+  </Link>
+</li>
 
-        <li>
-          <Link to="/" className="hover:underline">
-            Logout
-          </Link>
+        <li
+          onClick={logout}
+          className="text-red-600 cursor-pointer"
+        >
+          Logout
         </li>
       </ul>
     </div>
   );
 }
-
-export default Sidebar;

@@ -1,11 +1,21 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login() {
   const navigate = useNavigate();
+  const [role, setRole] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
-    navigate("/dashboard"); // temporary redirect
+
+    // Save role (temporary auth)
+    localStorage.setItem("role", role);
+
+    if (role === "admin") {
+      navigate("/admin/issues");
+    } else {
+      navigate("/dashboard");
+    }
   };
 
   return (
@@ -19,19 +29,21 @@ export default function Login() {
           <input
             type="text"
             placeholder="Username"
-            className="w-full border rounded px-3 py-2 focus:outline-purple-500"
+            className="w-full border rounded px-3 py-2"
             required
           />
 
           <input
             type="password"
             placeholder="Password"
-            className="w-full border rounded px-3 py-2 focus:outline-purple-500"
+            className="w-full border rounded px-3 py-2"
             required
           />
 
           <select
-            className="w-full border rounded px-3 py-2 focus:outline-purple-500"
+            className="w-full border rounded px-3 py-2"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
             required
           >
             <option value="">Select Role</option>
