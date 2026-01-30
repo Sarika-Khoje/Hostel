@@ -4,21 +4,31 @@ export default function MyIssues() {
   const [myIssues, setMyIssues] = useState([]);
 
   useEffect(() => {
-    const allIssues =
-      JSON.parse(localStorage.getItem("issues")) || [];
+    const allIssues = JSON.parse(localStorage.getItem("issues")) || [];
 
     const filtered = allIssues.filter(
-      (issue) => issue.reportedBy === "Sarika" // same as ReportIssue.jsx
+      (issue) => issue.reportedBy === "Sarika"
     );
 
     setMyIssues(filtered);
   }, []);
 
-  const statusColor = (status) => {
-    if (status === "Reported") return "bg-yellow-100 text-yellow-700";
-    if (status === "In Progress") return "bg-blue-100 text-blue-700";
-    if (status === "Resolved") return "bg-green-100 text-green-700";
-    return "bg-gray-100 text-gray-700";
+  const deleteIssue = (id) => {
+    const allIssues = JSON.parse(localStorage.getItem("issues")) || [];
+
+    const updatedIssues = allIssues.filter(
+      (issue) => issue.id !== id
+    );
+
+    localStorage.setItem("issues", JSON.stringify(updatedIssues));
+
+    setMyIssues(
+      updatedIssues.filter(
+        (issue) => issue.reportedBy === "Sarika"
+      )
+    );
+
+    alert("Issue deleted successfully");
   };
 
   return (
@@ -49,13 +59,19 @@ export default function MyIssues() {
               Priority: {issue.priority} | Visibility: {issue.visibility}
             </p>
 
-            <span
-              className={`inline-block mt-3 px-4 py-1 rounded-full text-sm font-medium ${statusColor(
-                issue.status
-              )}`}
-            >
-              {issue.status}
-            </span>
+            {/* Status + Delete (NO background) */}
+            <div className="mt-4 flex items-center gap-6">
+              <span className="text-sm font-medium text-gray-600">
+                {issue.status}
+              </span>
+
+              <button
+                onClick={() => deleteIssue(issue.id)}
+                className="text-sm font-medium text-red-600 hover:underline"
+              >
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
