@@ -1,4 +1,42 @@
+import { useState } from "react";
+
 export default function ReportIssue() {
+  const [category, setCategory] = useState("");
+  const [priority, setPriority] = useState("");
+  const [visibility, setVisibility] = useState("Public");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const newIssue = {
+      id: Date.now(),
+      category,
+      priority,
+      description,
+      visibility,
+      status: "Reported",
+      reportedBy: "Sarika", // temporary user
+      date: new Date().toLocaleString(),
+    };
+
+    const existingIssues =
+      JSON.parse(localStorage.getItem("issues")) || [];
+
+    localStorage.setItem(
+      "issues",
+      JSON.stringify([newIssue, ...existingIssues])
+    );
+
+    alert("Issue reported successfully");
+
+    // reset form
+    setCategory("");
+    setPriority("");
+    setVisibility("Public");
+    setDescription("");
+  };
+
   return (
     <div className="min-h-screen bg-purple-100 flex items-center justify-center">
       <div className="bg-white w-full max-w-xl p-8 rounded-lg shadow">
@@ -6,12 +44,17 @@ export default function ReportIssue() {
           Report an Issue
         </h2>
 
-        <form className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Category */}
           <div>
             <label className="block font-medium mb-1">Category</label>
-            <select className="w-full border rounded px-3 py-2">
-              <option>Select category</option>
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              required
+            >
+              <option value="">Select category</option>
               <option>Plumbing</option>
               <option>Electrical</option>
               <option>Cleanliness</option>
@@ -23,8 +66,13 @@ export default function ReportIssue() {
           {/* Priority */}
           <div>
             <label className="block font-medium mb-1">Priority</label>
-            <select className="w-full border rounded px-3 py-2">
-              <option>Select priority</option>
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
+              required
+            >
+              <option value="">Select priority</option>
               <option>Low</option>
               <option>Medium</option>
               <option>High</option>
@@ -39,13 +87,20 @@ export default function ReportIssue() {
               rows="4"
               className="w-full border rounded px-3 py-2"
               placeholder="Describe the issue..."
-            ></textarea>
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
           </div>
 
           {/* Visibility */}
           <div>
             <label className="block font-medium mb-1">Visibility</label>
-            <select className="w-full border rounded px-3 py-2">
+            <select
+              className="w-full border rounded px-3 py-2"
+              value={visibility}
+              onChange={(e) => setVisibility(e.target.value)}
+            >
               <option>Public</option>
               <option>Private</option>
             </select>

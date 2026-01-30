@@ -1,20 +1,18 @@
+import { useEffect, useState } from "react";
+
 export default function MyIssues() {
-  const issues = [
-    {
-      id: 1,
-      title: "Fan not working",
-      category: "Electrical",
-      priority: "Medium",
-      status: "In Progress",
-    },
-    {
-      id: 2,
-      title: "Bathroom leakage",
-      category: "Plumbing",
-      priority: "High",
-      status: "Reported",
-    },
-  ];
+  const [myIssues, setMyIssues] = useState([]);
+
+  useEffect(() => {
+    const allIssues =
+      JSON.parse(localStorage.getItem("issues")) || [];
+
+    const filtered = allIssues.filter(
+      (issue) => issue.reportedBy === "Sarika" // same as ReportIssue.jsx
+    );
+
+    setMyIssues(filtered);
+  }, []);
 
   const statusColor = (status) => {
     if (status === "Reported") return "bg-yellow-100 text-yellow-700";
@@ -29,23 +27,30 @@ export default function MyIssues() {
         My Reported Issues
       </h2>
 
+      {myIssues.length === 0 && (
+        <p className="text-gray-500">No issues reported yet.</p>
+      )}
+
       <div className="space-y-4">
-        {issues.map((issue) => (
+        {myIssues.map((issue) => (
           <div
             key={issue.id}
-            className="bg-white p-6 rounded-lg shadow flex justify-between items-center"
+            className="bg-white p-6 rounded-lg shadow"
           >
-            <div>
-              <h3 className="text-lg font-semibold text-purple-700">
-                {issue.title}
-              </h3>
-              <p className="text-gray-600">
-                {issue.category} | Priority: {issue.priority}
-              </p>
-            </div>
+            <h3 className="text-lg font-semibold text-purple-700">
+              {issue.category}
+            </h3>
+
+            <p className="text-gray-700 mt-1">
+              {issue.description}
+            </p>
+
+            <p className="text-sm text-gray-500 mt-2">
+              Priority: {issue.priority} | Visibility: {issue.visibility}
+            </p>
 
             <span
-              className={`px-4 py-1 rounded-full text-sm font-medium ${statusColor(
+              className={`inline-block mt-3 px-4 py-1 rounded-full text-sm font-medium ${statusColor(
                 issue.status
               )}`}
             >

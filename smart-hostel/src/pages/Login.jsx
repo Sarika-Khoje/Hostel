@@ -4,6 +4,9 @@ import { useState } from "react";
 export default function Login() {
   const navigate = useNavigate();
   const [role, setRole] = useState("");
+  const [username, setUsername] = useState("");
+const [password, setPassword] = useState("");
+
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -27,18 +30,23 @@ export default function Login() {
 
         <form onSubmit={handleLogin} className="space-y-4">
           <input
-            type="text"
-            placeholder="Username"
-            className="w-full border rounded px-3 py-2"
-            required
-          />
+  type="text"
+  placeholder="Username"
+  className="w-full border rounded px-3 py-2"
+  value={username}
+  onChange={(e) => setUsername(e.target.value)}
+/>
 
-          <input
-            type="password"
-            placeholder="Password"
-            className="w-full border rounded px-3 py-2"
-            required
-          />
+
+       <input
+  type="password"
+  placeholder="Password"
+  className="w-full border rounded px-3 py-2"
+  value={password}
+  onChange={(e) => setPassword(e.target.value)}
+/>
+
+
 
           <select
             className="w-full border rounded px-3 py-2"
